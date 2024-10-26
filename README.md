@@ -1,6 +1,6 @@
 # Google Calendar Work Schedule Management Project
 
-*All sensitive or private information have been created separately in `config.gs`*
+*All sensitive or private information have been created and stored separately in `config.gs`*
 
 This is set to get all events from the work calendar for the next three weeks, or 21 days, but that can be adjusted by changing the number of days in the `ThreeWeeksFromNow` variable on line 9.
 
