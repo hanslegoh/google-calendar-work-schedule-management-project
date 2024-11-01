@@ -2,7 +2,7 @@
 
 *All sensitive or private information have been created and stored separately in `config.gs`*
 
-This is set to get all events from the work calendar for the next three weeks, or 21 days, but that can be adjusted by changing the number of days in the `ThreeWeeksFromNow` variable on line 9.
+This is set to get all events from the subscribed work calendar for the next three weeks, but that can be adjusted by changing the number of days in the `threeWeeksFromNow` variable on line 9.
 
 Also, be mindful of the `getTimezoneOffset()` function used on lines 19 and 20, where the time difference between the work calendar and the current user can change based on location. `Session.getScriptTimeZone()` was used only during formatting, which did not help to change the time zone from UTC on the work calendar to PST or PDT, depending on the day of the year. This is why `getTimezoneOffset()` was used beforehand to adjust the time of the shift by either 7 or 8 hours, depending on the date's relation to daylight savings.
 
