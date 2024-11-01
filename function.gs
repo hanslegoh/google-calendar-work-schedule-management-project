@@ -4,10 +4,10 @@ function copyEventsToTwoCalendars() {
   var familyCalendarId = CalendarApp.getCalendarById(config.familyCalendarId);
   var personalCalendarId = CalendarApp.getCalendarById(config.personalCalendarId);
 
-  //Get all events for the next three weeks
+  //Get all events for the next three weeks (21 days)
   var now = new Date();
-  var ThreeWeeksFromNow = new Date(now.getTime() + (21 * 24 * 60 * 60 * 1000)); //days * hours * mins * secs * millisecs
-  var workCalendar = workCalendarId.getEvents(now, ThreeWeeksFromNow);
+  var threeWeeksFromNow = new Date(now.getTime() + (21 * 24 * 60 * 60 * 1000)); //days * hours * mins * secs * millisecs
+  var workCalendar = workCalendarId.getEvents(now, threeWeeksFromNow);
   var updateCountPersonal = 0;
   var updateCountFamily = 0;
 
@@ -84,7 +84,7 @@ function copyEventsToTwoCalendars() {
           familyEvent.deleteEvent();
           var copiedEventFamily = familyCalendarId.createEvent('Hansle - ' + event.getTitle(), shiftedStartFormatted, shiftedEndFormatted);
           console.log(`Added ${copiedEventFamily.getTitle()} to family calendar: ${copiedEventFamily.getStartTime()} to ${copiedEventFamily.getEndTime()}`);
-          console.log("DOUBLE CHECK ON INFOR FOR THIS SHIFT CHANGE");
+          console.log("DOUBLE CHECK THIS SHIFT CHANGE");
           updateCountFamily++;
         }
       }
@@ -103,4 +103,23 @@ function copyEventsToTwoCalendars() {
   else if((updateCountPersonal > 1) && (updateCountFamily > 1)) {
     console.log(`Added ${updateCountPersonal} new shifts to both calendars!`);
   }
+}
+
+/**
+ * Creates two time-driven triggers.
+ * @see https://developers.google.com/apps-script/guides/triggers/installable#time-driven_triggers
+ */
+function createTimeDrivenTriggers() {
+  // Trigger every 4 hours
+  ScriptApp.newTrigger("copyEventsToTwoCalendars")
+      .timeBased()
+      .everyHours(4)
+      .create();
+
+  // Trigger every Thursday at 09:00
+  ScriptApp.newTrigger("copyEventsToTwoCalendars")
+      .timeBased()
+      .onWeekDay(ScriptApp.WeekDay.THURSDAY)
+      .atHour(9)
+      .create();
 }
